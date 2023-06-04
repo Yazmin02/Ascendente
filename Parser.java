@@ -39,7 +39,7 @@ public class Parser {
     public void parse() {
         i = 0;
         preanalisis = tokens.get(i);
-        Parser();
+        Analizar();
 
         if (!hayErrores && !preanalisis.equals(finCadena)) {
             System.out.println(
@@ -62,7 +62,7 @@ public class Parser {
         preanalisis = tokens.get(i + 1);
     }
 
-    void Parser() {
+    void Analizar() {
         PilaToken.push(finCadena);
         PilaEstado.push(0);
         boolean control = false;
@@ -182,65 +182,136 @@ public class Parser {
 
             }
             case 4: {
-                //P->*
+                // P->*
                 PilaToken.pop();
                 PilaEstado.pop();
                 if (PilaEstado.peek() == 2) { // aqui se compara con el estado
                     PilaToken.push(P);
                     PilaEstado.push(9); // el numero que se ingresa es el numero de su produccion
-                }else
-                if (PilaEstado.peek() == 4) { // aqui se compara con el estado
+                } else if (PilaEstado.peek() == 4) { // aqui se compara con el estado
                     PilaToken.push(P);
                     PilaEstado.push(11); // el numero que se ingresa es el numero de su produccion
                 }
             }
             case 5: {
-                //P->A
+                // P->A
                 PilaToken.pop();
                 PilaEstado.pop();
                 if (PilaEstado.peek() == 2) { // aqui se compara con el estado
                     PilaToken.push(P);
                     PilaEstado.push(9); // el numero que se ingresa es el numero de su produccion
-                }else
-                if (PilaEstado.peek() == 4) { // aqui se compara con el estado
+                } else if (PilaEstado.peek() == 4) { // aqui se compara con el estado
                     PilaToken.push(P);
                     PilaEstado.push(11); // el numero que se ingresa es el numero de su produccion
                 }
             }
             case 3: {
-                //D->P
+                // D->P
                 PilaToken.pop();
                 PilaEstado.pop();
                 if (PilaEstado.peek() == 2) { // aqui se compara con el estado
                     PilaToken.push(D);
                     PilaEstado.push(3);
                 }
+            }
             case 2: {
-                //D-> distinct P
+                // D-> distinct P
+                PilaToken.pop();
+                PilaToken.pop();
+                PilaEstado.pop();
+                PilaEstado.pop();
+                if (PilaEstado.peek() == 2) { // aqui se compara con el estado
+                    PilaToken.push(D);
+                    PilaEstado.push(3);
+                }
+
             }
             case 6: {
-                //A->A2A1
+                // A->A2A1
+                PilaToken.pop();
+                PilaToken.pop();
+                PilaEstado.pop();
+                PilaEstado.pop();
+                if (PilaEstado.peek() == 2 || PilaEstado.peek() == 4) { // aqui se compara con el estado
+                    PilaToken.push(A);
+                    PilaEstado.push(6);
+                }
             }
             case 9: {
-                //A2->idA3
+                // A2->idA3
+                PilaToken.pop();
+                PilaToken.pop();
+                PilaEstado.pop();
+                PilaEstado.pop();
+                if (PilaEstado.peek() == 2 || PilaEstado.peek() == 4) { // aqui se compara con el estado
+                    PilaToken.push(A2);
+                    PilaEstado.push(7);
+                }
             }
             case 10: {
-                //D->.id
+                // A3->.id
+                PilaToken.pop();
+                PilaToken.pop();
+                PilaEstado.pop();
+                PilaEstado.pop();
+                if (PilaEstado.peek() == 8) { // aqui se compara con el estado
+                    PilaToken.push(A3);
+                    PilaEstado.push(13);
+                }
             }
             case 12: {
-                //T-> T2T1
+                // T-> T2T1
+                PilaToken.pop();
+                PilaToken.pop();
+                PilaEstado.pop();
+                PilaEstado.pop();
+                if (PilaEstado.peek() == 10) { // aqui se compara con el estado
+                    PilaToken.push(T);
+                    PilaEstado.push(14);
+                } else if (PilaEstado.peek() == 21) { // aqui se compara con el estado
+                    PilaToken.push(D);
+                    PilaEstado.push(23);
+                }
             }
             case 13: {
-                //T1->,T
+                // T1->,T
+                PilaToken.pop();
+                PilaToken.pop();
+                PilaEstado.pop();
+                PilaEstado.pop();
+                if (PilaEstado.peek() == 16) { // aqui se compara con el estado
+                    PilaToken.push(T1);
+                    PilaEstado.push(19);
+                }
             }
             case 15: {
-                //T2->idT3
+                // T2->idT3
+                PilaToken.pop();
+                PilaToken.pop();
+                PilaEstado.pop();
+                PilaEstado.pop();
+                if (PilaEstado.peek() == 10 || PilaEstado.peek() == 21) { // aqui se compara con el estado
+                    PilaToken.push(T2);
+                    PilaEstado.push(16);
+                }
             }
             case 17: {
-                //T3->E
+                // T3->E
+                PilaToken.pop();
+                PilaEstado.pop();
+                if (PilaEstado.peek() == 17) { // aqui se compara con el estado
+                    PilaToken.push(T3);
+                    PilaEstado.push(20);
+                }
             }
             case 16: {
                 // T3->id
+                PilaToken.pop();
+                PilaEstado.pop();
+                if (PilaEstado.peek() == 17) { // aqui se compara con el estado
+                    PilaToken.push(T3);
+                    PilaEstado.push(20);
+                }
             }
 
         }
