@@ -16,6 +16,17 @@ public class Parser {
     private final Token asterisco = new Token(TipoToken.ASTERISCO, "*");
     private final Token finCadena = new Token(TipoToken.EOF, "");
     private final Token Q = new Token(TipoToken.AUX, "Q");
+    private final Token D = new Token(TipoToken.AUX, "D");
+    private final Token p = new Token(TipoToken.AUX, "P");
+    private final Token A = new Token(TipoToken.AUX, "A");
+    private final Token A1 = new Token(TipoToken.AUX, "A1");
+    private final Token A2 = new Token(TipoToken.AUX, "A2");
+    private final Token A3 = new Token(TipoToken.AUX, "A3");
+    private final Token T = new Token(TipoToken.AUX, "T");
+    private final Token T1 = new Token(TipoToken.AUX, "T1");
+    private final Token T2 = new Token(TipoToken.AUX, "T2");
+    private final Token T3 = new Token(TipoToken.AUX, "T3");
+
     private int i = 0;
     private boolean hayErrores = false;
 
