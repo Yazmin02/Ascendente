@@ -17,7 +17,7 @@ public class Parser {
     private final Token finCadena = new Token(TipoToken.EOF, "");
     private final Token Q = new Token(TipoToken.AUX, "Q");
     private final Token D = new Token(TipoToken.AUX, "D");
-    private final Token p = new Token(TipoToken.AUX, "P");
+    private final Token P = new Token(TipoToken.AUX, "P");
     private final Token A = new Token(TipoToken.AUX, "A");
     private final Token A1 = new Token(TipoToken.AUX, "A1");
     private final Token A2 = new Token(TipoToken.AUX, "A2");
@@ -182,40 +182,65 @@ public class Parser {
 
             }
             case 4: {
-
+                //P->*
+                PilaToken.pop();
+                PilaEstado.pop();
+                if (PilaEstado.peek() == 2) { // aqui se compara con el estado
+                    PilaToken.push(P);
+                    PilaEstado.push(9); // el numero que se ingresa es el numero de su produccion
+                }else
+                if (PilaEstado.peek() == 4) { // aqui se compara con el estado
+                    PilaToken.push(P);
+                    PilaEstado.push(11); // el numero que se ingresa es el numero de su produccion
+                }
             }
             case 5: {
-
+                //P->A
+                PilaToken.pop();
+                PilaEstado.pop();
+                if (PilaEstado.peek() == 2) { // aqui se compara con el estado
+                    PilaToken.push(P);
+                    PilaEstado.push(9); // el numero que se ingresa es el numero de su produccion
+                }else
+                if (PilaEstado.peek() == 4) { // aqui se compara con el estado
+                    PilaToken.push(P);
+                    PilaEstado.push(11); // el numero que se ingresa es el numero de su produccion
+                }
             }
             case 3: {
-
-            }
+                //D->P
+                PilaToken.pop();
+                PilaEstado.pop();
+                if (PilaEstado.peek() == 2) { // aqui se compara con el estado
+                    PilaToken.push(D);
+                    PilaEstado.push(3);
+                }
             case 2: {
-
+                //D-> distinct P
             }
             case 6: {
-
+                //A->A2A1
             }
             case 9: {
-
+                //A2->idA3
             }
             case 10: {
-
+                //D->.id
             }
             case 12: {
-
+                //T-> T2T1
             }
             case 13: {
-
+                //T1->,T
             }
             case 15: {
-
+                //T2->idT3
             }
             case 17: {
-
+                //T3->E
             }
             case 16: {
-
+                // T3->id
             }
 
         }
