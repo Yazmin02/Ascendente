@@ -31,91 +31,131 @@ public class Parser {
         Parser();
 
         if (!hayErrores && !preanalisis.equals(finCadena)) {
-            System.out.println("Error en la posición " + preanalisis.posicion + ". No se esperaba el token " + preanalisis.tipo);
+            System.out.println(
+                    "Error en la posición " + preanalisis.posicion + ". No se esperaba el token " + preanalisis.tipo);
         } else if (!hayErrores && preanalisis.equals(finCadena)) {
             System.out.println("Consulta válida");
         }
     }
-    void errorToken(){
-        if(hayErrores) return;
-        System.out.println("Error en la posición " + preanalisis.posicion + ". No se esperaba el token " + preanalisis.tipo);
+
+    void errorToken() {
+        if (hayErrores)
+            return;
+        System.out.println(
+                "Error en la posición " + preanalisis.posicion + ". No se esperaba el token " + preanalisis.tipo);
     }
+
     void shift(int siguiente_estado) {
         PilaToken.push(preanalisis);
         PilaEstado.push(siguiente_estado);
         preanalisis = tokens.get(i + 1);
     }
 
-     void Parser() {
+    void Parser() {
         PilaToken.push(finCadena);
         PilaEstado.push(0);
-        boolean control= false;
-        while (control== false){
-            int estadodePila= PilaEstado.peek();
-           if(preanalisis.equals(select)){//
-                    if (estadodePila == 2){//se compara con el estado en el cual esta la instruccion
-                        shift(0); //depende si se llama el shift o reduccion y se pone el numero de la produccion
-                    }
+        boolean control = false;
+        while (control == false) {
+            int estadodePila = PilaEstado.peek();
+            if (preanalisis.equals(select)) {//
+                if (estadodePila == 2) {// se compara con el estado en el cual esta la instruccion
+                    shift(0); // depende si se llama el shift o reduccion y se pone el numero de la produccion
                 }
-            if(preanalisis.equals(identificador)){
-                if (estadodePila == 2 || estadodePila == 4){
-                        shift(8);
-                    }if (estadodePila == 17 ){
-                        shift(10);
-                    }
+            }
+            if (preanalisis.equals(identificador)) {
+                if (estadodePila == 2 || estadodePila == 4) {
+                    shift(8);
+                } else if (estadodePila == 10 || estadodePila == 21) {
+                    shift(17);
+                } else if (estadodePila == 15) {
+                    shift(18);
+                } else if (estadodePila == 17) {
+                    shift(22);
                 }
-            if(preanalisis.equals(from)){
-                    if (estadodePila == 3){
-                        shift(10);
-                    }else if (estadodePila == 5) {
-                        Reduccion(4);
-                    }
+            }
+            if (preanalisis.equals(from)) {
+                if (estadodePila == 3) {
+                    shift(10);
+                } else if (estadodePila == 5) {
+                    Reduccion(4);
+                } else if (estadodePila == 6) {
+                    Reduccion(5);
+                } else if (estadodePila == 9) {
+                    Reduccion(3);
+                } else if (estadodePila == 11) {
+                    Reduccion(2);
+                } else if (estadodePila == 12) {
+                    Reduccion(6);
+                } else if (estadodePila == 13) {
+                    Reduccion(9);
+                } else if (estadodePila == 18) {
+                    Reduccion(10);
                 }
-            if(preanalisis.equals(distinct)){//
-                    if (estadodePila == 2){
-                        shift(4);
-                    }
+            }
+            if (preanalisis.equals(distinct)) {//
+                if (estadodePila == 2) {
+                    shift(4);
                 }
-            if(preanalisis.equals(asterisco)){
-                    if (estadodePila == 2){
-                        shift(3);
-                    }
+            }
+            if (preanalisis.equals(asterisco)) {
+                if (estadodePila == 2 || estadodePila == 4) {
+                    shift(5);
                 }
-            if(preanalisis.equals(coma)){
-                    if (estadodePila == 7){
-                        shift(7);
-                    }
+            }
+            if (preanalisis.equals(coma)) {
+                if (estadodePila == 7) {
+                    shift(7);
+                } else if (estadodePila == 13) {
+                    Reduccion(9);
+                } else if (estadodePila == 16) {
+                    shift(21);
+                } else if (estadodePila == 18) {
+                    Reduccion(10);
+                } else if (estadodePila == 20) {
+                    Reduccion(15);
+                } else if (estadodePila == 22) {
+                    Reduccion(16);
                 }
-            if(preanalisis.equals(punto)){
-                    if (estadodePila == 8) {
-                        shift(15);
-                    }
-                if(preanalisis.equals(finCadena)){
-                    if (estadodePila ==1){
+            }
+            if (preanalisis.equals(punto)) {
+                if (estadodePila == 8) {
+                    shift(15);
+                }
+                if (preanalisis.equals(finCadena)) {
+                    if (estadodePila == 1) {
                         System.out.println("La cadena es valida");
+                    } else if (estadodePila == 14) {
+                        Reduccion(1);
+                    } else if (estadodePila == 19) {
+                        Reduccion(12);
+                    } else if (estadodePila == 20) {
+                        Reduccion(15);
+                    } else if (estadodePila == 22) {
+                        Reduccion(16);
+                    } else if (estadodePila == 23) {
+                        Reduccion(13);
                     }
                 }
 
-
-                if (control == true)
-                {
-                    for (int j =1; j < PilaToken.size(); j++){
-                        System.out.print(PilaToken.elementAt(j)+":"+PilaEstado.elementAt(j) );
+                if (control == true) {
+                    for (int j = 1; j < PilaToken.size(); j++) {
+                        System.out.print(PilaToken.elementAt(j) + ":" + PilaEstado.elementAt(j));
                     }
-                }}
+                }
+            }
         }
     }
 
-   void InvalidString() {
+    void InvalidString() {
         System.out.println("Lo siento, ¡la expresión que ingresaste NO ES VÁLIDA! =(");
         System.exit(-1);
     }
 
     // Función que maneja las reducciones
-     void Reduccion(int regla) {
+    void Reduccion(int regla) {
         switch (regla) {
-            case 1:{
-                //Q-> select D from T
+            case 1: {
+                // Q-> select D from T
                 PilaToken.pop();
                 PilaToken.pop();
                 PilaToken.pop();
@@ -124,7 +164,7 @@ public class Parser {
                 PilaEstado.pop();
                 PilaEstado.pop();
                 PilaEstado.pop();
-                if(PilaEstado.peek() == 0){ // aqui se compara con el estado
+                if (PilaEstado.peek() == 0) { // aqui se compara con el estado
                     PilaToken.push(Q);
                     PilaEstado.push(1); // el numero que se ingresa es el numero de su produccion
                 }
@@ -133,37 +173,37 @@ public class Parser {
             case 4: {
 
             }
-            case 5:{
+            case 5: {
 
             }
-            case 3:{
+            case 3: {
 
             }
-            case 2:{
+            case 2: {
 
             }
-            case 6:{
+            case 6: {
 
             }
-            case 9:{
+            case 9: {
 
             }
-            case 10:{
+            case 10: {
 
             }
-            case 12:{
+            case 12: {
 
             }
-            case 13:{
+            case 13: {
 
             }
-            case 15:{
+            case 15: {
 
             }
-            case 17:{
+            case 17: {
 
             }
-            case 16:{
+            case 16: {
 
             }
 
