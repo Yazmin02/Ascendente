@@ -145,31 +145,30 @@ public class Parser {
                 if (estadodePila == 8) {
                     shift(15);
                 }
+            }
+            if (preanalisis.equals(finCadena)) {
+                if (estadodePila == 1) {
+                    System.out.println("La cadena es valida");
+                }
+                if (estadodePila == 14) {
+                    Reduccion(1);
+                }
+                if (estadodePila == 19) {
+                    Reduccion(12);
+                }
+                if (estadodePila == 20) {
+                    Reduccion(15);
+                }
+                if (estadodePila == 22) {
+                    Reduccion(16);
+                }
+                if (estadodePila == 23) {
+                    Reduccion(13);
+                }
 
-                if (preanalisis.equals(finCadena)) {
-                    if (estadodePila == 1) {
-                        System.out.println("La cadena es valida");
-                    }
-                    if (estadodePila == 14) {
-                        Reduccion(1);
-                    }
-                    if (estadodePila == 19) {
-                        Reduccion(12);
-                    }
-                    if (estadodePila == 20) {
-                        Reduccion(15);
-                    }
-                    if (estadodePila == 22) {
-                        Reduccion(16);
-                    }
-                    if (estadodePila == 23) {
-                        Reduccion(13);
-                    }
-
-                    if (control == true) {
-                        for (int j = 1; j < PilaToken.size(); j++) {
-                            System.out.print(PilaToken.elementAt(j) + ":" + PilaEstado.elementAt(j));
-                        }
+                if (control == true) {
+                    for (int j = 1; j < PilaToken.size(); j++) {
+                        System.out.print(PilaToken.elementAt(j) + ":" + PilaEstado.elementAt(j));
                     }
                 }
             }
