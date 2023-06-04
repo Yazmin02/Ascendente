@@ -28,7 +28,6 @@ public class Parser {
     private final Token T3 = new Token(TipoToken.AUX, "T3");
 
     private int i = 0;
-    private int a = 0;
 
     private boolean hayErrores = false;
 
@@ -74,8 +73,7 @@ public class Parser {
                 if (estadodePila == 0) {// se compara con el estado en el cual esta la instruccion
                     shift(2); // depende si se llama el shift o reduccion y se pone el numero de la produccion
                 }
-            }
-            if (preanalisis.equals(identificador)) {
+            } else if (preanalisis.equals(identificador)) {
                 if (estadodePila == 2 || estadodePila == 4) {
                     shift(8);
                 }
@@ -88,8 +86,7 @@ public class Parser {
                 if (estadodePila == 17) {
                     shift(22);
                 }
-            }
-            if (preanalisis.equals(from)) {
+            } else if (preanalisis.equals(from)) {
                 if (estadodePila == 3) {
                     shift(10);
                 }
@@ -114,21 +111,18 @@ public class Parser {
                 if (estadodePila == 18) {
                     Reduccion(10);
                 }
-            }
-            if (preanalisis.equals(distinct)) {//
+            } else if (preanalisis.equals(distinct)) {//
                 if (estadodePila == 2) {
                     shift(4);
                 }
-            }
-            if (preanalisis.equals(asterisco)) {
+            } else if (preanalisis.equals(asterisco)) {
                 if (estadodePila == 2) {
                     shift(5);
                 }
                 if (estadodePila == 4) {
                     shift(5);
                 }
-            }
-            if (preanalisis.equals(coma)) {
+            } else if (preanalisis.equals(coma)) {
                 if (estadodePila == 7) {
                     shift(7);
                 }
@@ -147,8 +141,7 @@ public class Parser {
                 if (estadodePila == 22) {
                     Reduccion(16);
                 }
-            }
-            if (preanalisis.equals(punto)) {
+            } else if (preanalisis.equals(punto)) {
                 if (estadodePila == 8) {
                     shift(15);
                 }
