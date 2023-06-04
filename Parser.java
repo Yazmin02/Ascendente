@@ -69,8 +69,8 @@ public class Parser {
         while (control == false) {
             int estadodePila = PilaEstado.peek();
             if (preanalisis.equals(select)) {//
-                if (estadodePila == 2) {// se compara con el estado en el cual esta la instruccion
-                    shift(0); // depende si se llama el shift o reduccion y se pone el numero de la produccion
+                if (estadodePila == 0) {// se compara con el estado en el cual esta la instruccion
+                    shift(2); // depende si se llama el shift o reduccion y se pone el numero de la produccion
                 }
             }
             if (preanalisis.equals(identificador)) {
