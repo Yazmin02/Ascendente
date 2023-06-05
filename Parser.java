@@ -1,6 +1,6 @@
 import java.util.List;
 import java.util.Stack;
-
+//select * from table
 public class Parser {
 
     static Stack<Token> PilaToken = new Stack<>();
@@ -79,13 +79,13 @@ public class Parser {
             } else if (preanalisis.equals(identificador)) {
                 if (estadodePila == 2 || estadodePila == 4) {
                     shift(8);
-                }
+                }else
                 if (estadodePila == 10 || estadodePila == 21) {
-                    shift(17);
-                }
+                    shift(14);
+                }else
                 if (estadodePila == 15) {
                     shift(18);
-                }
+                }else
                 if (estadodePila == 17) {
                     shift(22);
                 } else
@@ -125,19 +125,19 @@ public class Parser {
             } else if (preanalisis.equals(coma)) {
                 if (estadodePila == 7) {
                     shift(7);
-                }
+                }else
                 if (estadodePila == 13) {
                     Reduccion(9);
-                }
+                }else
                 if (estadodePila == 16) {
                     shift(21);
-                }
+                }else
                 if (estadodePila == 18) {
                     Reduccion(10);
-                }
+                }else
                 if (estadodePila == 20) {
                     Reduccion(15);
-                }
+                }else
                 if (estadodePila == 22) {
                     Reduccion(16);
                 } else
@@ -200,7 +200,7 @@ public class Parser {
                 }
                 System.out.println("La cadena es valida");
             }
-            case 4 -> {
+            case 4, 5 -> {
                 // P->*
                 PilaToken.pop();
                 PilaEstado.pop();
@@ -212,18 +212,7 @@ public class Parser {
                     PilaEstado.push(11); // el numero que se ingresa es el numero de su produccion
                 }
             }
-            case 5 -> {
-                // P->A
-                PilaToken.pop();
-                PilaEstado.pop();
-                if (PilaEstado.peek() == 2) { // aqui se compara con el estado
-                    PilaToken.push(P);
-                    PilaEstado.push(9); // el numero que se ingresa es el numero de su produccion
-                } else if (PilaEstado.peek() == 4) { // aqui se compara con el estado
-                    PilaToken.push(P);
-                    PilaEstado.push(11); // el numero que se ingresa es el numero de su produccion
-                }
-            }
+            // P->A
             case 3 -> {
                 // D->P
                 PilaToken.pop();
@@ -313,7 +302,7 @@ public class Parser {
                     PilaEstado.push(16);
                 }
             }
-            case 17 -> {
+            case 17, 16 -> {
                 // T3->E
                 PilaToken.pop();
                 PilaEstado.pop();
@@ -322,15 +311,7 @@ public class Parser {
                     PilaEstado.push(20);
                 }
             }
-            case 16 -> {
-                // T3->id
-                PilaToken.pop();
-                PilaEstado.pop();
-                if (PilaEstado.peek() == 17) { // aqui se compara con el estado
-                    PilaToken.push(T3);
-                    PilaEstado.push(20);
-                }
-            }
+            // T3->id
         }
         estadodePila = PilaEstado.peek();
     }
