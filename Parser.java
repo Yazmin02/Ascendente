@@ -19,7 +19,7 @@ public class Parser {
     private final Token D = new Token(TipoToken.AUX, "D");
     private final Token P = new Token(TipoToken.AUX, "P");
     private final Token A = new Token(TipoToken.AUX, "A");
-   // private final Token A1 = new Token(TipoToken.AUX, "A1");
+    // private final Token A1 = new Token(TipoToken.AUX, "A1");
     private final Token A2 = new Token(TipoToken.AUX, "A2");
     private final Token A3 = new Token(TipoToken.AUX, "A3");
     private final Token T = new Token(TipoToken.AUX, "T");
@@ -30,7 +30,7 @@ public class Parser {
     private int i = 0;
 
     private boolean hayErrores = false;
-    private int estadodePila=0;
+    private int estadodePila = 0;
     private Token preanalisis;
 
     public Parser(List<Token> tokens) {
@@ -41,6 +41,7 @@ public class Parser {
         i = 0;
         preanalisis = tokens.get(i);
         Analizar();
+
         if (!hayErrores && !preanalisis.equals(finCadena)) {
             System.out.println(
                     "Error en la posición " + preanalisis.posicion + ". No se esperaba el token " + preanalisis.tipo);
@@ -51,7 +52,7 @@ public class Parser {
     }
 
     void errorToken() {
-        hayErrores= true;
+        hayErrores = true;
     }
 
     void shift(int siguiente_estado) {
@@ -69,11 +70,12 @@ public class Parser {
 
         while (!hayErrores || !preanalisis.equals(finCadena)) {
 
-             estadodePila = PilaEstado.peek();
+            estadodePila = PilaEstado.peek();
             if (preanalisis.equals(select)) {//
                 if (estadodePila == 0) {// se compara con el estado en el cual esta la instruccion
                     shift(2); // depende si se llama el shift o reduccion y se pone el numero de la produccion
-                }else errorToken();
+                } else
+                    errorToken();
             } else if (preanalisis.equals(identificador)) {
                 if (estadodePila == 2 || estadodePila == 4) {
                     shift(8);
@@ -86,43 +88,40 @@ public class Parser {
                 }
                 if (estadodePila == 17) {
                     shift(22);
-                }else errorToken();
+                } else
+                    errorToken();
             } else if (preanalisis.equals(from)) {
                 if (estadodePila == 3) {
                     shift(10);
-                }else
-                if (estadodePila == 5) {
+                } else if (estadodePila == 5) {
                     Reduccion(4);
-                }else
-                if (estadodePila == 6) {
+                } else if (estadodePila == 6) {
                     Reduccion(5);
-                }else
-                if (estadodePila == 9) {
+                } else if (estadodePila == 9) {
                     Reduccion(3);
-                }else
-                if (estadodePila == 11) {
+                } else if (estadodePila == 11) {
                     Reduccion(2);
-                }else
-                if (estadodePila == 12) {
+                } else if (estadodePila == 12) {
                     Reduccion(6);
-                }else
-                if (estadodePila == 13) {
+                } else if (estadodePila == 13) {
                     Reduccion(9);
-                }else
-                if (estadodePila == 18) {
+                } else if (estadodePila == 18) {
                     Reduccion(10);
-                }else errorToken();
+                } else
+                    errorToken();
             } else if (preanalisis.equals(distinct)) {//
                 if (estadodePila == 2) {
                     shift(4);
-                }else errorToken();
+                } else
+                    errorToken();
             } else if (preanalisis.equals(asterisco)) {
                 if (estadodePila == 2) {
                     shift(5);
-                }else
-                if (estadodePila == 4) {
+
+                } else if (estadodePila == 4) {
                     shift(5);
-                }else errorToken();
+                } else
+                    errorToken();
             } else if (preanalisis.equals(coma)) {
                 if (estadodePila == 7) {
                     shift(7);
@@ -141,41 +140,44 @@ public class Parser {
                 }
                 if (estadodePila == 22) {
                     Reduccion(16);
-                }else errorToken();
+                } else
+                    errorToken();
             } else if (preanalisis.equals(punto)) {
                 if (estadodePila == 8) {
                     shift(15);
-                }else errorToken();
-            }else
-            if (preanalisis.equals(finCadena)) {
+                } else
+                    errorToken();
+            } else if (preanalisis.equals(finCadena)) {
                 if (estadodePila == 1) {
                     System.out.println("La cadena es valida");
                     hayErrores = false;
-                }else
-                if (estadodePila == 14) {
+                } else if (estadodePila == 14) {
                     Reduccion(1);
-                }else
-                if (estadodePila == 19) {
+                } else if (estadodePila == 19) {
                     Reduccion(12);
-                }else
-                if (estadodePila == 20) {
+                } else if (estadodePila == 20) {
                     Reduccion(15);
-                }else
-                if (estadodePila == 22) {
+                } else if (estadodePila == 22) {
                     Reduccion(16);
-                }else
-                if (estadodePila == 23) {
+                } else if (estadodePila == 23) {
                     Reduccion(13);
-                }else errorToken();
+                } else if (!hayErrores && preanalisis.equals(finCadena)) {
+                    System.out.println(
+                            "Error en la posición " + preanalisis.posicion + ". No se esperaba el token "
+                                    + preanalisis.tipo);
 
-                if (!hayErrores) {
-                    for (int j = 1; j < PilaToken.size(); j++) {
-                        System.out.print(PilaToken.elementAt(j) + ":" + PilaEstado.elementAt(j));
+                    errorToken();
+                    if (!hayErrores) {
+                        for (int j = 1; j < PilaToken.size(); j++) {
+                            System.out.print(PilaToken.elementAt(j) + ":" + PilaEstado.elementAt(j));
+                        }
+
                     }
-
+                    if (hayErrores)
+                        return;
                 }
-                if(hayErrores)return;
             }
+
         }
     }
 
@@ -196,6 +198,7 @@ public class Parser {
                     PilaToken.push(Q);
                     PilaEstado.push(1); // el numero que se ingresa es el numero de su produccion
                 }
+                System.out.println("La cadena es valida");
             }
             case 4 -> {
                 // P->*
@@ -329,7 +332,7 @@ public class Parser {
                 }
             }
         }
-        estadodePila= PilaEstado.peek();
+        estadodePila = PilaEstado.peek();
     }
 
 }
