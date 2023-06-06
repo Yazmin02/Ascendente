@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.Stack;
+
 //select * from table
 public class Parser {
 
@@ -19,7 +20,7 @@ public class Parser {
     private final Token D = new Token(TipoToken.AUX, "D");
     private final Token P = new Token(TipoToken.AUX, "P");
     private final Token A = new Token(TipoToken.AUX, "A");
-    // private final Token A1 = new Token(TipoToken.AUX, "A1");
+    private final Token A1 = new Token(TipoToken.AUX, "A1");
     private final Token A2 = new Token(TipoToken.AUX, "A2");
     private final Token A3 = new Token(TipoToken.AUX, "A3");
     private final Token T = new Token(TipoToken.AUX, "T");
@@ -79,14 +80,15 @@ public class Parser {
             } else if (preanalisis.equals(identificador)) {
                 if (estadodePila == 2 || estadodePila == 4) {
                     shift(8);
-                }else
-                if (estadodePila == 10 || estadodePila == 21) {
+                } else if (estadodePila == 10) {
                     shift(14);
-                }else
-                if (estadodePila == 15) {
+                } else if (estadodePila == 21) {
+                    shift(14);
+                } else if (estadodePila == 15) {
                     shift(18);
-                }else
-                if (estadodePila == 17) {
+                } else if (estadodePila == 24) {
+                    shift(8);
+                } else if (estadodePila == 17) {
                     shift(22);
                 } else
                     errorToken();
@@ -107,6 +109,8 @@ public class Parser {
                     Reduccion(9);
                 } else if (estadodePila == 18) {
                     Reduccion(10);
+                } else if (estadodePila == 25) {
+                    Reduccion(7);
                 } else
                     errorToken();
             } else if (preanalisis.equals(distinct)) {//
@@ -124,21 +128,16 @@ public class Parser {
                     errorToken();
             } else if (preanalisis.equals(coma)) {
                 if (estadodePila == 7) {
-                    shift(7);
-                }else
-                if (estadodePila == 13) {
+                    shift(24);
+                } else if (estadodePila == 13) {
                     Reduccion(9);
-                }else
-                if (estadodePila == 16) {
+                } else if (estadodePila == 16) {
                     shift(21);
-                }else
-                if (estadodePila == 18) {
+                } else if (estadodePila == 18) {
                     Reduccion(10);
-                }else
-                if (estadodePila == 20) {
+                } else if (estadodePila == 20) {
                     Reduccion(15);
-                }else
-                if (estadodePila == 22) {
+                } else if (estadodePila == 22) {
                     Reduccion(16);
                 } else
                     errorToken();
@@ -242,6 +241,9 @@ public class Parser {
                 if (PilaEstado.peek() == 2 || PilaEstado.peek() == 4) { // aqui se compara con el estado
                     PilaToken.push(A);
                     PilaEstado.push(6);
+                } else if (PilaEstado.peek() == 24) { // aqui se compara con el estado
+                    PilaToken.push(A);
+                    PilaEstado.push(25);
                 }
             }
             case 9 -> {
@@ -250,7 +252,8 @@ public class Parser {
                 PilaToken.pop();
                 PilaEstado.pop();
                 PilaEstado.pop();
-                if (PilaEstado.peek() == 2 || PilaEstado.peek() == 4) { // aqui se compara con el estado
+                if (PilaEstado.peek() == 2 || PilaEstado.peek() == 4 || PilaEstado.peek() == 24) { // aqui se compara //
+                                                                                                   // // con el estado
                     PilaToken.push(A2);
                     PilaEstado.push(7);
                 }
@@ -273,10 +276,10 @@ public class Parser {
                 PilaEstado.pop();
                 PilaEstado.pop();
                 if (PilaEstado.peek() == 10) { // aqui se compara con el estado
-                    PilaToken.push(T);
+                    PilaToken.push(D);
                     PilaEstado.push(14);
                 } else if (PilaEstado.peek() == 21) { // aqui se compara con el estado
-                    PilaToken.push(D);
+                    PilaToken.push(T);
                     PilaEstado.push(23);
                 }
             }
@@ -309,6 +312,17 @@ public class Parser {
                 if (PilaEstado.peek() == 17) { // aqui se compara con el estado
                     PilaToken.push(T3);
                     PilaEstado.push(20);
+                }
+            }
+            case 7 -> {
+                // A1->,A
+                PilaToken.pop();
+                PilaToken.pop();
+                PilaEstado.pop();
+                PilaEstado.pop();
+                if (PilaEstado.peek() == 7) { // aqui se compara con el estado
+                    PilaToken.push(A1);
+                    PilaEstado.push(12);
                 }
             }
             // T3->id
